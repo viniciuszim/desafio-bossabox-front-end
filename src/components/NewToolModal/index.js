@@ -6,16 +6,16 @@ import { bindActionCreators } from 'redux';
 import { Creators as ToolsActions } from '../../store/ducks/tools';
 
 import {
-  Modal, Form, Button, Spinner,
+  Modal, Form, Button, Spinner, Alert,
 } from 'react-bootstrap';
 
 const initialState = {
   validated: false,
   tool: {
-    title: '1',
-    link: '1',
-    description: '1',
-    tags: '1',
+    title: '',
+    link: '',
+    description: '',
+    tags: '',
   },
 };
 
@@ -45,10 +45,10 @@ class NewToolModal extends Component {
   state = {
     validated: false,
     tool: {
-      title: '1',
-      link: '1',
-      description: '1',
-      tags: '1',
+      title: '',
+      link: '',
+      description: '',
+      tags: '',
     },
   };
 
@@ -85,7 +85,7 @@ class NewToolModal extends Component {
 
   render() {
     const { show, handleCloseModal, tools } = this.props;
-    const { loading } = tools;
+    const { loading, errorOnAdd } = tools;
     const { validated, tool } = this.state;
     return (
       <Modal show={show} onHide={handleCloseModal}>
@@ -166,6 +166,7 @@ class NewToolModal extends Component {
                 Please, fill at least one tag.
               </Form.Control.Feedback>
             </Form.Group>
+            {!!errorOnAdd && <Alert variant="danger">{errorOnAdd}</Alert>}
           </Modal.Body>
           <Modal.Footer>
             <Button disabled={loading} variant="primary" type="submit">
