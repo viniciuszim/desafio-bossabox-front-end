@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { Creators as ToolsActions } from '../../store/ducks/tools';
 
 import {
-  Row, Col, Form, Button, Card,
+  Row, Col, Form, Button, Card, Alert,
 } from 'react-bootstrap';
 import Dialog from 'react-bootstrap-dialog';
 
@@ -120,6 +120,7 @@ Remove Tool
 
   render() {
     const { tools } = this.props;
+    const { data, error, errorOnRemove } = tools;
     const { showModal, searchInput, searchOnlyTag } = this.state;
     return (
       <Container>
@@ -166,14 +167,16 @@ Remove Tool
                 </Col>
               </Row>
             </Form>
-            {(!!tools.data === false || tools.data.length === 0) && (
+            {!!error && <Alert variant="danger">{error}</Alert>}
+            {!!errorOnRemove && <Alert variant="danger">{errorOnRemove}</Alert>}
+            {(!!data === false || data.length === 0) && (
               <EmptyContainer>
                 <h3>No tool found!</h3>
               </EmptyContainer>
             )}
-            {!!tools.data && tools.data.length !== 0 && (
+            {!!data && data.length !== 0 && (
               <ListContainer>
-                {tools.data.map(tool => (
+                {data.map(tool => (
                   <Card key={tool.id}>
                     <Card.Header>
                       <Row>
