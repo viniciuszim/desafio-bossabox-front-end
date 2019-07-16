@@ -89,7 +89,7 @@ class NewToolModal extends Component {
     const { validated, tool } = this.state;
     return (
       <Modal show={show} onHide={handleCloseModal}>
-        <Form noValidate validated={validated} onSubmit={this.handleSubmit}>
+        <Form id="newToolForm" noValidate validated={validated} onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>
               <i className="fa fa-plus" />
@@ -100,6 +100,7 @@ class NewToolModal extends Component {
             <Form.Group controlId="formGroupToolName">
               <Form.Label>Tool Name</Form.Label>
               <Form.Control
+                name="tool-title"
                 type="text"
                 required
                 placeholder="name"
@@ -117,6 +118,7 @@ class NewToolModal extends Component {
             <Form.Group controlId="formGroupToolLink">
               <Form.Label>Tool Link</Form.Label>
               <Form.Control
+                name="tool-link"
                 type="link"
                 required
                 placeholder="http://..."
@@ -134,6 +136,7 @@ class NewToolModal extends Component {
             <Form.Group controlId="formGroupToolDescription">
               <Form.Label>Tool Description</Form.Label>
               <Form.Control
+                name="tool-description"
                 as="textarea"
                 required
                 rows="3"
@@ -152,6 +155,7 @@ class NewToolModal extends Component {
             <Form.Group controlId="formGroupToolTags">
               <Form.Label>Tags</Form.Label>
               <Form.Control
+                name="tool-tags"
                 type="text"
                 required
                 placeholder="tags"
@@ -169,7 +173,7 @@ class NewToolModal extends Component {
             {!!errorOnAdd && <Alert variant="danger">{errorOnAdd}</Alert>}
           </Modal.Body>
           <Modal.Footer>
-            <Button disabled={loading} variant="primary" type="submit">
+            <Button id="newToolButton" disabled={loading} variant="primary" type="submit">
               {loading ? <Spinner animation="border" variant="light" size="sm" /> : 'Add Tool'}
             </Button>
           </Modal.Footer>

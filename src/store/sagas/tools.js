@@ -38,6 +38,9 @@ export function* getByTagRequest(action) {
       yield put(ToolsActions.getAllError('There was an error trying to get the tools by a tag.'));
     }
   } catch (error) {
+    console.log(1111);
+    console.log(error);
+    console.log(2222);
     yield put(ToolsActions.getAllError('There was an error trying to get the tools by a tag.'));
   }
 }

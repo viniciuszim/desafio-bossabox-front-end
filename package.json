@@ -46,11 +46,28 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/store/ducks/*.js",
+      "src/store/sagas/*.js",
+      "src/*.js",
+      "!src/setupTests.js",
+      "!src/index.js"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "devDependencies": {
+    "axios-mock-adapter": "^1.17.0",
     "babel-plugin-root-import": "^6.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.2"
+    "eslint-plugin-react": "^7.14.2",
+    "redux-mock-store": "^1.5.3"
   }
 }
