@@ -8,7 +8,12 @@ export function* getAllRequest(action) {
     const { payload } = action;
     const { search } = payload;
 
-    const response = yield call(api.get, `/tools?q=${search}`);
+    let response = null;
+    if (typeof search !== 'undefined' && search !== null && search !== '') {
+      response = yield call(api.get, `/tools?q=${search}`);
+    } else {
+      response = yield call(api.get, '/tools');
+    }
 
     if (response !== null && response.status === 200) {
       yield put(ToolsActions.getAllSuccess(response.data));
@@ -43,7 +48,10 @@ export function* addToolRequest(action) {
     const { tool } = payload;
 
     const response = yield call(api.post, '/tools', {
-      tool,
+      title: tool.title,
+      link: tool.link,
+      description: tool.description,
+      tags: tool.tags,
     });
 
     if (response !== null && response.status === 201) {

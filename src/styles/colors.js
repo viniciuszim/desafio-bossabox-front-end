@@ -25,6 +25,7 @@ export default createGlobalStyle`
     --whiteTransparent-color: rgba(255, 255, 255, 0.3);
     --darkReallyTransparent-color: rgba(0, 0, 0, 0.1);
 
+    --highlight-color: #b1b870;
     --menu-color: #27282c;
     --menuTextHover-color: #965352;
     --menuBorderBottom-color: #212124;

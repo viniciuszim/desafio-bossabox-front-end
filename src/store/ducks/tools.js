@@ -59,6 +59,7 @@ export default function tools(state = initialState, action) {
     case Types.ADD_TOOL_SUCCESS:
       return {
         ...state,
+        data: [...state.data, action.payload.tool],
         loading: false,
         successOnAdd: true,
         errorOnAdd: '',

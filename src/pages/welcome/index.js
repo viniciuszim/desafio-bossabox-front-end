@@ -8,6 +8,7 @@ import { Creators as ToolsActions } from '../../store/ducks/tools';
 import {
   Row, Col, Form, Button, Card,
 } from 'react-bootstrap';
+import Dialog from 'react-bootstrap-dialog';
 
 import { Container, EmptyContainer, ListContainer } from './styles';
 
@@ -18,6 +19,7 @@ class Welcome extends Component {
     getAllRequest: PropTypes.func.isRequired,
     getByTagRequest: PropTypes.func.isRequired,
     removeToolRequest: PropTypes.func.isRequired,
+    resetSuccessValuesRequest: PropTypes.func.isRequired,
     tools: PropTypes.shape({
       data: PropTypes.arrayOf(
         PropTypes.shape({
@@ -42,15 +44,43 @@ class Welcome extends Component {
   };
 
   componentDidMount() {
+    Dialog.setOptions({
+      defaultOkLabel: 'Yes, remove',
+      defaultCancelLabel: 'Cancel!!',
+      primaryClassName: 'btn-success',
+      defaultButtonClassName: 'btn-danger',
+    });
+    this.handleSearch();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { tools } = nextProps;
+    const { successOnRemove } = tools;
+
+    if (successOnRemove) {
+      const { resetSuccessValuesRequest } = this.props;
+      this.handleSearch();
+      resetSuccessValuesRequest();
+    }
+  }
+
+  handleSearch = () => {
     const { getAllRequest, getByTagRequest } = this.props;
     const { searchInput, searchOnlyTag } = this.state;
 
     if (searchOnlyTag) {
       getByTagRequest(searchInput);
     } else {
-      getAllRequest();
+      getAllRequest(searchInput);
     }
-  }
+  };
+
+  handleSearchChange = (event) => {
+    this.setState({ searchInput: event.target.value });
+    if (event.target.value === '' || event.target.value.length >= 3) {
+      this.handleSearch();
+    }
+  };
 
   handleOpenModal = () => {
     this.setState({ showModal: true });
@@ -60,9 +90,32 @@ class Welcome extends Component {
     this.setState({ showModal: false });
   };
 
-  handleRemoveTool = (id) => {
-    const { removeToolRequest } = this.props;
-    removeToolRequest(id);
+  handleRemoveTool = (tool) => {
+    this.dialog.showAlert('Hello Dialog!');
+    this.dialog.show({
+      title: (
+        <div>
+          <i className="fa fa-times" />
+          {' '}
+Remove Tool
+        </div>
+      ),
+      body: (
+        <div>
+          {'Are you sure you want to remove '}
+          <strong>{tool.title}</strong>
+          {'?'}
+        </div>
+      ),
+      actions: [
+        Dialog.CancelAction(),
+        Dialog.OKAction(() => {
+          const { removeToolRequest } = this.props;
+          removeToolRequest(tool.id);
+        }),
+      ],
+      bsSize: 'small',
+    });
   };
 
   render() {
@@ -70,10 +123,12 @@ class Welcome extends Component {
     const { showModal, searchInput, searchOnlyTag } = this.state;
     return (
       <Container>
-        <NewToolModal
-          show={showModal}
-          handleCloseModal={this.handleCloseModal}
+        <Dialog
+          ref={(el) => {
+            this.dialog = el;
+          }}
         />
+        <NewToolModal show={showModal} handleCloseModal={this.handleCloseModal} />
         <Row>
           <Col xs={12} sm={3}>
             &nbsp;
@@ -88,7 +143,9 @@ class Welcome extends Component {
                     type="text"
                     placeholder="Search"
                     value={searchInput}
-                    onChange={e => this.setState({ searchInput: e.value })}
+                    onChange={(e) => {
+                      this.handleSearchChange(e);
+                    }}
                   />
                 </Col>
                 <Col xs={6} sm={4} className="check-col">
@@ -98,7 +155,7 @@ class Welcome extends Component {
                     type="checkbox"
                     id="inline-checkbox"
                     checked={searchOnlyTag}
-                    onChange={e => this.setState({ searchOnlyTag: e.value })}
+                    onChange={e => this.setState({ searchOnlyTag: e.target.value })}
                   />
                 </Col>
                 <Col xs={6} sm={4} className="button-col">
@@ -111,7 +168,7 @@ class Welcome extends Component {
             </Form>
             {(!!tools.data === false || tools.data.length === 0) && (
               <EmptyContainer>
-                <h3>No tool added... Please add a new one</h3>
+                <h3>No tool found!</h3>
               </EmptyContainer>
             )}
             {!!tools.data && tools.data.length !== 0 && (
@@ -121,29 +178,41 @@ class Welcome extends Component {
                     <Card.Header>
                       <Row>
                         <Col xs={9} className="card-title">
-                          <Card.Title>Card Title</Card.Title>
+                          <Card.Title>
+                            <Button
+                              variant="link"
+                              type="button"
+                              size="sm"
+                              onClick={() => window.open(tool.link, '_blank')}
+                            >
+                              {tool.title}
+                            </Button>
+                          </Card.Title>
                         </Col>
                         <Col xs={3} className="card-remove">
                           <Button
-                            variant="link"
+                            variant="danger"
                             type="button"
                             size="sm"
-                            onClick={() => this.handleRemoveTool(1)}
+                            onClick={() => this.handleRemoveTool(tool)}
                           >
-                            <i className="fa fa-plus" />
+                            <i className="fa fa-times" />
                             remove
                           </Button>
                         </Col>
                       </Row>
                     </Card.Header>
                     <Card.Body>
-                      <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card&apos;s content.
-                      </Card.Text>
+                      <Card.Text>{tool.description}</Card.Text>
                     </Card.Body>
                     <Card.Footer>
-                      <Card.Text>#hashtags</Card.Text>
+                      {!!tool.tags
+                        && tool.tags.length > 0
+                        && tool.tags.map((tag, index) => (
+                          <Card.Text key={index} className={tag === searchInput ? 'highlight' : ''}>
+                            {`#${tag}`}
+                          </Card.Text>
+                        ))}
                     </Card.Footer>
                   </Card>
                 ))}

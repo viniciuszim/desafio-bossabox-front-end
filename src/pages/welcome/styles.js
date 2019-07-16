@@ -51,6 +51,7 @@ export const ListContainer = styled.div`
   .card {
     color: var(--black-color);
     margin-bottom: 20px;
+    width: 100%;
   }
   .card-title {
     display: flex;
@@ -60,8 +61,24 @@ export const ListContainer = styled.div`
     margin: 0;
     padding: 0;
   }
+  .card-title button {
+    padding: 0;
+    text-align: left;
+  }
   .card-remove {
     padding: 0;
     text-align: right;
+  }
+  .card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .card-footer .card-text {
+    margin-right: 10px;
+  }
+  .card-footer .card-text.highlight {
+    margin-right: 10px;
+    background-color: var(--highlight-color);
   }
 `;

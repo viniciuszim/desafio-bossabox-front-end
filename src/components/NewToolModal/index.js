@@ -5,15 +5,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators as ToolsActions } from '../../store/ducks/tools';
 
-import { Modal, Form, Button } from 'react-bootstrap';
+import {
+  Modal, Form, Button, Spinner,
+} from 'react-bootstrap';
 
 const initialState = {
   validated: false,
   tool: {
-    name: '',
-    link: '',
-    description: '',
-    tags: '',
+    title: '1',
+    link: '1',
+    description: '1',
+    tags: '1',
   },
 };
 
@@ -43,10 +45,10 @@ class NewToolModal extends Component {
   state = {
     validated: false,
     tool: {
-      name: '',
-      link: '',
-      description: '',
-      tags: '',
+      title: '1',
+      link: '1',
+      description: '1',
+      tags: '1',
     },
   };
 
@@ -71,7 +73,9 @@ class NewToolModal extends Component {
       const { addToolRequest } = this.props;
       const { tool } = this.state;
 
-      tool.tags = tool.tags.split(' ');
+      if (typeof tool.tags === 'string') {
+        tool.tags = tool.tags.split(' ');
+      }
       addToolRequest(tool);
 
       return;
@@ -99,10 +103,10 @@ class NewToolModal extends Component {
                 type="text"
                 required
                 placeholder="name"
-                value={tool.name}
+                value={tool.title}
                 onChange={(event) => {
                   this.setState({
-                    tool: { ...tool, name: event.target.value },
+                    tool: { ...tool, title: event.target.value },
                   });
                 }}
               />
@@ -165,7 +169,7 @@ class NewToolModal extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button disabled={loading} variant="primary" type="submit">
-              {loading ? 'spin' : 'Add Tool'}
+              {loading ? <Spinner animation="border" variant="light" size="sm" /> : 'Add Tool'}
             </Button>
           </Modal.Footer>
         </Form>
