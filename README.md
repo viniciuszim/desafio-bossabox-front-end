@@ -22,3 +22,6 @@ Para executar o projeto front-end, basta executar os seguintes comandos.
 
 ### `yarn start`
 - Para iniciar o servidor na URL padrão (http://localhost:3000)
+
+### `yarn test`
+- Para realizar os testes da aplicação (foi utilizado JEST)
