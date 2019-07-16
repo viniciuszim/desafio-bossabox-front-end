@@ -149,7 +149,7 @@ Remove Tool
                     }}
                   />
                 </Col>
-                <Col xs={6} sm={4} className="check-col">
+                <Col xs={8} sm={4} className="check-col">
                   <Form.Check
                     inline
                     label="search in tags only"
@@ -159,7 +159,7 @@ Remove Tool
                     onChange={e => this.setState({ searchOnlyTag: e.target.value })}
                   />
                 </Col>
-                <Col xs={6} sm={4} className="button-col">
+                <Col xs={4} sm={4} className="button-col mt-xs-3">
                   <Button variant="primary" type="button" onClick={this.handleOpenModal}>
                     <i className="fa fa-plus" />
                     Add
@@ -180,7 +180,7 @@ Remove Tool
                   <Card key={tool.id}>
                     <Card.Header>
                       <Row>
-                        <Col xs={9} className="card-title">
+                        <Col xs={8} className="card-title">
                           <Card.Title>
                             <Button
                               variant="link"
@@ -192,7 +192,7 @@ Remove Tool
                             </Button>
                           </Card.Title>
                         </Col>
-                        <Col xs={3} className="card-remove">
+                        <Col xs={4} className="card-remove">
                           <Button
                             variant="danger"
                             type="button"

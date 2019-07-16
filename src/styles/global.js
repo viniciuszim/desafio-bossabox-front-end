@@ -35,6 +35,13 @@ const GlobalStyle = createGlobalStyle`
     color: var(--black-color);
   }
 
+  /* Extra small devices  */
+  @media (max-width: 575px) {
+    .mt-xs-3 {
+      margin-top: 1rem!important;
+    }
+  }
+
 `;
 
 export default GlobalStyle;
