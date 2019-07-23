@@ -15,13 +15,16 @@ Na mesma tela de listagem o usuário tem opão de remover uma ferramenta, clican
 Para apontar a url do servidor, bastar editar o seguinte arquivo:
 src/services/api.js
 
-Para executar o projeto front-end, basta executar os seguintes comandos.
+Para executar o projeto front-end, depois de ter startado e mapeado o back-end, basta executar os seguintes comandos.
 
 ### `yarn`
+
 - Para instalar as dependências
 
 ### `yarn start`
-- Para iniciar o servidor na URL padrão (http://localhost:3000)
+
+- Para iniciar o servidor na URL padrão (http://localhost:3001)
 
 ### `yarn test`
+
 - Para realizar os testes da aplicação (foi utilizado JEST)
